@@ -52,6 +52,14 @@
       background-color 200ms ease,
       color 200ms ease;
   }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    scrollbar-width: none;
+  }
 }
 
 @keyframes tooltip-in {

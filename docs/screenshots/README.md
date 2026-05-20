@@ -8,7 +8,6 @@ Place tes captures d'ecran dans ce dossier avec les noms suivants. Le README pri
 | `packs-list.png`      | Liste des packs avec Natif et 2-3 packs custom               |
 | `wizard-step-1.png`   | Wizard etape 1 - selection FiveM.exe et GTA5.exe             |
 | `wizard-step-2.png`   | Wizard etape 2 - selection du dossier des packs              |
-| `wizard-step-3.png`   | Wizard etape 3 - import du setup actuel                      |
 | `context-menu.png`    | Menu contextuel sur un pack (clic droit)                     |
 | `settings-panel.png`  | Panneau de reglages ouvert                                   |
 

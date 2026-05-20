@@ -65,9 +65,8 @@ Au premier demarrage, un wizard te guide en 3 etapes :
 3. **(Optionnel) Importer ton setup actuel** comme premier pack si tu as deja des mods et plugins en place dans FiveM.
 
 <p align="center">
-  <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="32%" />
-  <img src="docs/screenshots/wizard-step-2.png" alt="Wizard etape 2 - dossier des packs" width="32%" />
-  <img src="docs/screenshots/wizard-step-3.png" alt="Wizard etape 3 - import du setup" width="32%" />
+  <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="48%" />
+  <img src="docs/screenshots/wizard-step-2.png" alt="Wizard etape 2 - dossier des packs" width="48%" />
 </p>
 
 ## Utilisation
