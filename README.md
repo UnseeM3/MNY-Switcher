@@ -2,7 +2,7 @@
 
 > Outil desktop Windows pour switcher entre plusieurs packs graphiques FiveM en un double-clic.
 
-<!-- TODO: screenshot principal de l'app (liste des packs en theme dark) -->
+<img src="docs/screenshots/app-main.png" alt="Vue principale - liste des packs en theme dark" />
 
 ## Sommaire
 
@@ -35,7 +35,7 @@ MNY Switcher utilise les **junctions NTFS** de Windows : un swap de pack prend m
 - Theme dark / light, fenetre frameless
 - Aucun acces administrateur requis
 
-<!-- TODO: screenshot liste des packs avec un Natif + 2-3 packs custom -->
+<img src="docs/screenshots/packs-list.png" alt="Liste des packs avec Natif et packs custom" />
 
 ## Stack technique
 
@@ -64,7 +64,11 @@ Au premier demarrage, un wizard te guide en 3 etapes :
 2. **Choisir le dossier de stockage** des packs (dossier central qui contiendra tous tes packs).
 3. **(Optionnel) Importer ton setup actuel** comme premier pack si tu as deja des mods et plugins en place dans FiveM.
 
-<!-- TODO: 3 screenshots du wizard, un par etape -->
+<p align="center">
+  <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="32%" />
+  <img src="docs/screenshots/wizard-step-2.png" alt="Wizard etape 2 - dossier des packs" width="32%" />
+  <img src="docs/screenshots/wizard-step-3.png" alt="Wizard etape 3 - import du setup" width="32%" />
+</p>
 
 ## Utilisation
 
@@ -73,7 +77,10 @@ Au premier demarrage, un wizard te guide en 3 etapes :
 - **Renommer / supprimer** : clic droit sur un pack pour ouvrir le menu contextuel.
 - **Reglages** : icone engrenage en haut a droite (changer `FiveM.exe`, `GTA5.exe`, dossier des packs, nettoyer cache, nettoyer GTA V, etc.).
 
-<!-- TODO: screenshot du menu contextuel et du panneau de reglages -->
+<p align="center">
+  <img src="docs/screenshots/context-menu.png" alt="Menu contextuel sur un pack" width="48%" />
+  <img src="docs/screenshots/settings-panel.png" alt="Panneau de reglages" width="48%" />
+</p>
 
 ## Build depuis les sources
 
