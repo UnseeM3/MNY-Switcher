@@ -58,11 +58,10 @@ MNY Switcher utilise les **junctions NTFS** de Windows : un swap de pack prend m
 
 ## Premier lancement
 
-Au premier demarrage, un wizard te guide en 3 etapes :
+Au premier demarrage, un wizard te guide en 2 etapes :
 
 1. **Selectionner `FiveM.exe` et `GTA5.exe`** — `GTA5.exe` sert au support ENB.
 2. **Choisir le dossier de stockage** des packs (dossier central qui contiendra tous tes packs).
-3. **(Optionnel) Importer ton setup actuel** comme premier pack si tu as deja des mods et plugins en place dans FiveM.
 
 <p align="center">
   <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="48%" />
