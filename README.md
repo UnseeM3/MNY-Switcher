@@ -1,0 +1,136 @@
+# MNY Switcher
+
+> Outil desktop Windows pour switcher entre plusieurs packs graphiques FiveM en un double-clic.
+
+<!-- TODO: screenshot principal de l'app (liste des packs en theme dark) -->
+
+## Sommaire
+
+- [Pourquoi](#pourquoi)
+- [Fonctionnalites](#fonctionnalites)
+- [Stack technique](#stack-technique)
+- [Installation](#installation)
+- [Premier lancement](#premier-lancement)
+- [Utilisation](#utilisation)
+- [Build depuis les sources](#build-depuis-les-sources)
+- [Architecture](#architecture)
+- [Contribution](#contribution)
+- [Licence](#licence)
+
+## Pourquoi
+
+Tu collectionnes plusieurs packs graphiques FiveM (mods + plugins) ? Tu veux basculer rapidement entre eux sans copier-coller des dossiers de plusieurs gigaoctets ?
+
+MNY Switcher utilise les **junctions NTFS** de Windows : un swap de pack prend moins de 100 ms, zero copie sur le disque, sans acces administrateur.
+
+## Fonctionnalites
+
+- Switch instantane entre packs (< 100 ms)
+- Support ENB integre
+- Pack natif (sans modification) sauvegarde et restaurable
+- Detection automatique du dossier FiveM
+- Import du setup actuel comme premier pack
+- Nettoyage du cache FiveM en un clic
+- Nettoyage des fichiers de mods orphelins de GTA V
+- Theme dark / light, fenetre frameless
+- Aucun acces administrateur requis
+
+<!-- TODO: screenshot liste des packs avec un Natif + 2-3 packs custom -->
+
+## Stack technique
+
+| Couche          | Technologie                          |
+| --------------- | ------------------------------------ |
+| Frontend        | React 19 + TypeScript + Vite 7       |
+| Styling         | TailwindCSS v4 (tokens semantiques)  |
+| Etat            | Zustand + middleware persist         |
+| Backend desktop | Tauri v2 (Rust)                      |
+| Junctions       | crate `junction` 1.x (Windows NTFS)  |
+| Plugins Tauri   | `opener`, `dialog`                   |
+
+## Installation
+
+1. Aller sur la page [Releases](https://github.com/UnseeM3/MNY-Switcher/releases)
+2. Telecharger le dernier `.msi` (installeur) ou `.exe` (portable)
+3. Installer ou lancer directement
+
+> **Windows uniquement.** L'app repose sur les junctions NTFS, exclusivite Windows.
+
+## Premier lancement
+
+Au premier demarrage, un wizard te guide en 3 etapes :
+
+1. **Selectionner `FiveM.exe` et `GTA5.exe`** — `GTA5.exe` sert au support ENB.
+2. **Choisir le dossier de stockage** des packs (dossier central qui contiendra tous tes packs).
+3. **(Optionnel) Importer ton setup actuel** comme premier pack si tu as deja des mods et plugins en place dans FiveM.
+
+<!-- TODO: 3 screenshots du wizard, un par etape -->
+
+## Utilisation
+
+- **Switcher de pack** : double-clic sur un pack — switch + lancement de FiveM dans la foulee.
+- **Creer un pack** : bouton `+` ; le dialog te guide en 4 etapes (nom, ENB ou non, contenu de depart, source).
+- **Renommer / supprimer** : clic droit sur un pack pour ouvrir le menu contextuel.
+- **Reglages** : icone engrenage en haut a droite (changer `FiveM.exe`, `GTA5.exe`, dossier des packs, nettoyer cache, nettoyer GTA V, etc.).
+
+<!-- TODO: screenshot du menu contextuel et du panneau de reglages -->
+
+## Build depuis les sources
+
+Prerequis :
+
+- [Bun](https://bun.sh) (gestionnaire de paquets utilise par ce projet)
+- Rust stable (`rustup install stable`)
+- Windows (les junctions NTFS sont exclusives Windows)
+
+```bash
+git clone https://github.com/UnseeM3/MNY-Switcher.git
+cd MNY-Switcher
+bun install
+bun run tauri dev       # dev avec hot reload
+bun run tauri build     # build prod (.exe + .msi dans src-tauri/target/release/)
+```
+
+Un menu interactif est aussi disponible via `switcher.bat` (Windows).
+
+## Architecture
+
+L'app repose sur les **junctions NTFS** de Windows. Les packs (potentiellement plusieurs gigaoctets) sont stockes dans un dossier central. Les dossiers `mods/` et `plugins/` de FiveM sont remplaces par des junctions pointant vers le pack actif.
+
+```
+[ Dossier de packs ]                [ Dossier FiveM ]
+
+  packs/                            FiveM/
+  |-- Natif/                        |-- FiveM.exe
+  |   |-- mods/                     |-- mods/    --junction-->  packs/CustomA/mods/
+  |   '-- plugins/                  '-- plugins/ --junction-->  packs/CustomA/plugins/
+  |
+  |-- CustomA/   <-- ACTIF
+  |   |-- mods/
+  |   |-- plugins/
+  |   '-- enb/
+  |
+  '-- CustomB/
+      |-- mods/
+      '-- plugins/
+```
+
+Le swap d'un pack se decompose en :
+
+1. Suppression des junctions `mods/` et `plugins/` du dossier FiveM
+2. Recreation de ces junctions vers les dossiers du nouveau pack actif
+3. (Optionnel) Installation / desinstallation de l'ENB dans le dossier GTA V
+
+Cout total : moins de 100 ms, aucune copie de fichiers, pas besoin d'acces administrateur.
+
+**Securite des donnees** : avant de supprimer un path existant, l'app verifie qu'il s'agit bien d'une junction. Impossible d'ecraser un vrai dossier contenant des donnees personnelles.
+
+## Contribution
+
+Les bugs et suggestions sont les bienvenus via les [Issues GitHub](https://github.com/UnseeM3/MNY-Switcher/issues).
+
+Pour contribuer du code : fork + pull request. Merci de respecter les Conventional Commits en francais et de tester ton code avant de proposer la PR.
+
+## Licence
+
+[MIT](LICENSE) — Copyright (c) 2026 Unsee
