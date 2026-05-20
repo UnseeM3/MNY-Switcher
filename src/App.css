@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --app-base: #ffffff;
+  --app-surface: #f8f8f8;
+  --app-surface-elevated: #eeeeee;
+  --app-line: #e5e5e5;
+  --app-fg: #0a0a0a;
+  --app-fg-muted: #6b6b6b;
+}
+
+.dark {
+  --app-base: #0a0a0a;
+  --app-surface: #141414;
+  --app-surface-elevated: #1f1f1f;
+  --app-line: #262626;
+  --app-fg: #fafafa;
+  --app-fg-muted: #a1a1a1;
+}
+
+@theme inline {
+  --color-base: var(--app-base);
+  --color-surface: var(--app-surface);
+  --color-surface-elevated: var(--app-surface-elevated);
+  --color-line: var(--app-line);
+  --color-fg: var(--app-fg);
+  --color-fg-muted: var(--app-fg-muted);
+  --color-accent: #00d492;
+  --color-accent-hover: #00b87d;
+  --color-danger: #ef4444;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--color-base);
+    color: var(--color-fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tooltip {
+  animation: tooltip-in 150ms ease-out;
+}
+
+@keyframes refresh-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-refresh-spin {
+  animation: refresh-spin 600ms ease-in-out;
+}
