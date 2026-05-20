@@ -12,7 +12,7 @@ echo   ======================================
 echo.
 echo   [1] Lancer en mode dev (tauri dev)
 echo   [2] Build production (tauri build)
-echo   [3] Build frontend seul (vite build)
+echo   [3] Build frontend seul (bun run build)
 echo   [4] Installer les dependances (bun install)
 echo   [5] Verifier compilation Rust (cargo check)
 echo   [6] Quitter
