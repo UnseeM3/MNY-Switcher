@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { open } from "@tauri-apps/plugin-dialog";
 import { useConfigStore } from "../stores/config";
 import { usePacksStore } from "../stores/packs";
 import { useNotificationStore } from "../stores/notification";
@@ -7,7 +8,7 @@ import { api } from "../api/tauri";
 import { ContextMenu, type ContextMenuItem } from "./ContextMenu";
 import { RenamePackDialog } from "./RenamePackDialog";
 import { Tooltip } from "./Tooltip";
-import { DEFAULT_PACK_NAME } from "../constants";
+import { DEFAULT_PACK_NAME, COVER_EXTENSIONS } from "../constants";
 import type { Pack } from "../types";
 
 type ContextPosition = { x: number; y: number } | null;
@@ -54,6 +55,39 @@ export function PackItem({ pack }: { pack: Pack }) {
     await refresh(gameDir, packsDir);
   }
 
+  async function chooseCover() {
+    try {
+      const selected = await open({
+        multiple: false,
+        filters: [{ name: "Image", extensions: COVER_EXTENSIONS }],
+      });
+      if (typeof selected !== "string") return;
+      await api.setPackCover(packsDir, pack.name, selected);
+      await refresh(gameDir, packsDir);
+    } catch (err) {
+      notify(`Impossible de definir l'image : ${err}`, 6000);
+    }
+  }
+
+  async function removeCover() {
+    try {
+      await api.removePackCover(packsDir, pack.name);
+      await refresh(gameDir, packsDir);
+    } catch (err) {
+      notify(`Impossible de retirer l'image : ${err}`, 6000);
+    }
+  }
+
+  function buildCoverItems(): ContextMenuItem[] {
+    if (pack.coverPath) {
+      return [
+        { label: "Changer l'image", onClick: chooseCover },
+        { label: "Retirer l'image", onClick: removeCover },
+      ];
+    }
+    return [{ label: "Definir une image", onClick: chooseCover }];
+  }
+
   function openContextMenu(event: React.MouseEvent) {
     event.preventDefault();
     setMenuPos({ x: event.clientX, y: event.clientY });
@@ -85,6 +119,7 @@ export function PackItem({ pack }: { pack: Pack }) {
     const items: ContextMenuItem[] = [
       { label: "Selectionner", onClick: selectPack },
       { label: "Ouvrir le dossier", onClick: openFolder },
+      ...buildCoverItems(),
     ];
     if (canRename) {
       items.push({ label: "Renommer", onClick: () => setRenameOpen(true) });
