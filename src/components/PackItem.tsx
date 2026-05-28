@@ -20,6 +20,7 @@ export function PackItem({ pack }: { pack: Pack }) {
   const [menuPos, setMenuPos] = useState<ContextPosition>(null);
   const [error, setError] = useState<string | null>(null);
   const [renameOpen, setRenameOpen] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   const isActive = activePackName === pack.name;
   const isDefault = pack.name === DEFAULT_PACK_NAME;
@@ -49,10 +50,6 @@ export function PackItem({ pack }: { pack: Pack }) {
   }
 
   async function deletePack() {
-    const confirmed = window.confirm(
-      `Supprimer le pack "${pack.name}" ?\nTous ses fichiers seront perdus.`,
-    );
-    if (!confirmed) return;
     await api.deletePack(packsDir, pack.name);
     await refresh(gameDir, packsDir);
   }
@@ -60,6 +57,28 @@ export function PackItem({ pack }: { pack: Pack }) {
   function openContextMenu(event: React.MouseEvent) {
     event.preventDefault();
     setMenuPos({ x: event.clientX, y: event.clientY });
+  }
+
+  function closeMenu() {
+    setMenuPos(null);
+    setConfirmingDelete(false);
+  }
+
+  function buildDeleteItem(): ContextMenuItem {
+    if (confirmingDelete) {
+      return {
+        label: "Confirmer suppression ?",
+        onClick: deletePack,
+        danger: true,
+        armed: true,
+      };
+    }
+    return {
+      label: "Supprimer",
+      onClick: () => setConfirmingDelete(true),
+      danger: true,
+      keepOpen: true,
+    };
   }
 
   function buildMenuItems(): ContextMenuItem[] {
@@ -71,7 +90,7 @@ export function PackItem({ pack }: { pack: Pack }) {
       items.push({ label: "Renommer", onClick: () => setRenameOpen(true) });
     }
     if (canDelete) {
-      items.push({ label: "Supprimer", onClick: deletePack, danger: true });
+      items.push(buildDeleteItem());
     }
     return items;
   }
@@ -93,7 +112,7 @@ export function PackItem({ pack }: { pack: Pack }) {
         <ContextMenu
           x={menuPos.x}
           y={menuPos.y}
-          onClose={() => setMenuPos(null)}
+          onClose={closeMenu}
           items={buildMenuItems()}
         />
       )}
