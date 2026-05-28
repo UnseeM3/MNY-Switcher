@@ -1,7 +1,7 @@
 {
   "name": "mny-switcher",
   "private": true,
-  "version": "0.2.0",
+  "version": "1.1.0",
   "author": "Unsee",
   "license": "MIT",
   "description": "MNY Switcher - outil de switch de packs graphiques FiveM",
