@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use crate::cache;
 use crate::cleanup_gta;
+use crate::cover;
 use crate::fivem;
 use crate::native;
 use crate::pack::{self, Pack, SetupInfo};
@@ -140,6 +141,30 @@ pub fn scan_gta_mods(gta5_dir: PathBuf) -> Result<Vec<cleanup_gta::GtaModEntry>,
 #[tauri::command]
 pub fn clean_gta_mods(gta5_dir: PathBuf) -> Result<usize, String> {
     cleanup_gta::clean(&gta5_dir).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn set_pack_cover(
+    packs_dir: PathBuf,
+    pack_name: String,
+    source: PathBuf,
+) -> Result<String, String> {
+    let pack_root = packs_dir.join(&pack_name);
+    cover::set(&pack_root, &source)
+        .map(|path| path.to_string_lossy().into_owned())
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn get_pack_cover(packs_dir: PathBuf, pack_name: String) -> Option<String> {
+    let pack_root = packs_dir.join(&pack_name);
+    cover::get(&pack_root).map(|path| path.to_string_lossy().into_owned())
+}
+
+#[tauri::command]
+pub fn remove_pack_cover(packs_dir: PathBuf, pack_name: String) -> Result<(), String> {
+    let pack_root = packs_dir.join(&pack_name);
+    cover::remove(&pack_root).map_err(|e| e.to_string())
 }
 
 pub use crate::pack::PathInspection;

@@ -12,9 +12,10 @@ mod winattr;
 
 use commands::{
     active_pack, check_setup, clean_gta_mods, cleanup_junctions, clear_fivem_cache, create_pack,
-    delete_pack, detect_game_dir, ensure_native_pack, import_current_setup, inspect_path,
-    is_fivem_running, launch_fivem, list_dir_entries, list_packs, migrate_legacy_default,
-    open_folder, rename_pack, scan_gta_mods, switch_and_launch, switch_pack,
+    delete_pack, detect_game_dir, ensure_native_pack, get_pack_cover, import_current_setup,
+    inspect_path, is_fivem_running, launch_fivem, list_dir_entries, list_packs,
+    migrate_legacy_default, open_folder, remove_pack_cover, rename_pack, scan_gta_mods,
+    set_pack_cover, switch_and_launch, switch_pack,
 };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -44,6 +45,9 @@ pub fn run() {
             clear_fivem_cache,
             scan_gta_mods,
             clean_gta_mods,
+            set_pack_cover,
+            get_pack_cover,
+            remove_pack_cover,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
