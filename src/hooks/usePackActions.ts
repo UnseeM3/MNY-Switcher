@@ -1,5 +1,15 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
+import {
+  AlertTriangle,
+  CircleCheck,
+  FolderOpen,
+  ImageOff,
+  ImagePlus,
+  ImageUp,
+  PencilLine,
+  Trash2,
+} from "lucide-react";
 import { useConfigStore } from "../stores/config";
 import { usePacksStore } from "../stores/packs";
 import { useNotificationStore } from "../stores/notification";
@@ -21,7 +31,7 @@ export type PackActions = {
   openContextMenu: (event: React.MouseEvent) => void;
   closeMenu: () => void;
   closeRename: () => void;
-  buildMenuItems: () => ContextMenuItem[];
+  buildMenuGroups: () => ContextMenuItem[][];
 };
 
 export function usePackActions(pack: Pack): PackActions {
@@ -108,6 +118,7 @@ export function usePackActions(pack: Pack): PackActions {
       return {
         label: "Confirmer suppression ?",
         onClick: deletePack,
+        icon: AlertTriangle,
         danger: true,
         armed: true,
       };
@@ -115,6 +126,7 @@ export function usePackActions(pack: Pack): PackActions {
     return {
       label: "Supprimer",
       onClick: () => setConfirmingDelete(true),
+      icon: Trash2,
       danger: true,
       keepOpen: true,
     };
@@ -123,26 +135,26 @@ export function usePackActions(pack: Pack): PackActions {
   function buildCoverItems(): ContextMenuItem[] {
     if (pack.coverPath) {
       return [
-        { label: "Changer l'image", onClick: chooseCover },
-        { label: "Retirer l'image", onClick: removeCover },
+        { label: "Changer l'image", onClick: chooseCover, icon: ImageUp },
+        { label: "Retirer l'image", onClick: removeCover, icon: ImageOff },
       ];
     }
-    return [{ label: "Definir une image", onClick: chooseCover }];
+    return [{ label: "Definir une image", onClick: chooseCover, icon: ImagePlus }];
   }
 
-  function buildMenuItems(): ContextMenuItem[] {
-    const items: ContextMenuItem[] = [
-      { label: "Selectionner", onClick: selectPack },
-      { label: "Ouvrir le dossier", onClick: openFolder },
-      ...buildCoverItems(),
-    ];
-    if (canRename) {
-      items.push({ label: "Renommer", onClick: () => setRenameOpen(true) });
+  function buildMenuGroups(): ContextMenuItem[][] {
+    const primary: ContextMenuItem[] = [];
+    if (!isActive) {
+      primary.push({ label: "Selectionner", onClick: selectPack, icon: CircleCheck });
     }
-    if (canDelete) {
-      items.push(buildDeleteItem());
-    }
-    return items;
+    primary.push({ label: "Ouvrir le dossier", onClick: openFolder, icon: FolderOpen });
+
+    const rename: ContextMenuItem[] = canRename
+      ? [{ label: "Renommer", onClick: () => setRenameOpen(true), icon: PencilLine }]
+      : [];
+    const destructive: ContextMenuItem[] = canDelete ? [buildDeleteItem()] : [];
+
+    return [primary, buildCoverItems(), rename, destructive];
   }
 
   return {
@@ -156,6 +168,6 @@ export function usePackActions(pack: Pack): PackActions {
     openContextMenu,
     closeMenu,
     closeRename,
-    buildMenuItems,
+    buildMenuGroups,
   };
 }

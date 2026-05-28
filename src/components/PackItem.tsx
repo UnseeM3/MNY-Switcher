@@ -33,7 +33,7 @@ export function PackItem({ pack }: { pack: Pack }) {
           x={menuPos.x}
           y={menuPos.y}
           onClose={actions.closeMenu}
-          items={actions.buildMenuItems()}
+          groups={actions.buildMenuGroups()}
         />
       )}
       {renameOpen && (
