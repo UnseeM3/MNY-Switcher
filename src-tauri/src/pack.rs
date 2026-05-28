@@ -3,6 +3,7 @@ use std::fs;
 use std::io;
 use std::path::Path;
 
+use crate::cover;
 use crate::enb;
 use crate::fivem;
 use crate::junction;
@@ -20,8 +21,10 @@ const PACK_ENB_DIR: &str = "enb";
 pub const DEFAULT_PACK_NAME: &str = "Natif";
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Pack {
     pub name: String,
+    pub cover_path: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -42,12 +45,17 @@ pub fn list(packs_dir: &Path) -> io::Result<Vec<Pack>> {
     let mut packs: Vec<Pack> = fs::read_dir(packs_dir)?
         .filter_map(Result::ok)
         .filter(|entry| entry.file_type().map(|t| t.is_dir()).unwrap_or(false))
-        .map(|entry| Pack {
-            name: entry.file_name().to_string_lossy().into_owned(),
-        })
+        .map(|entry| build_pack_entry(&entry))
         .collect();
     sort_with_default_first(&mut packs);
     Ok(packs)
+}
+
+fn build_pack_entry(entry: &fs::DirEntry) -> Pack {
+    Pack {
+        name: entry.file_name().to_string_lossy().into_owned(),
+        cover_path: cover::get(&entry.path()).map(|p| p.to_string_lossy().into_owned()),
+    }
 }
 
 fn sort_with_default_first(packs: &mut [Pack]) {

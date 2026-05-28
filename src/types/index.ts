@@ -1,5 +1,6 @@
 export type Pack = {
   name: string;
+  coverPath: string | null;
 };
 
 export type Config = {
