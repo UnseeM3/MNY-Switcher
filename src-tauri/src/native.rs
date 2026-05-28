@@ -1,16 +1,16 @@
 use std::fs;
 use std::io;
 use std::path::Path;
-use std::process::Command;
 
 use crate::junction;
 use crate::pack::{DEFAULT_PACK_NAME, PACK_SUBDIRS};
+use crate::winattr;
 
 pub const MARKER_FILENAME: &str = ".mny-native";
 
 pub fn install_markers(pack_root: &Path) -> io::Result<()> {
     fs::write(pack_root.join(MARKER_FILENAME), "")?;
-    set_hidden_attribute(pack_root)
+    winattr::set_hidden(pack_root)
 }
 
 pub fn has_marker(pack_root: &Path) -> bool {
@@ -88,15 +88,3 @@ fn recreate_junctions(pack_root: &Path, game_dir: &Path) -> io::Result<()> {
     Ok(())
 }
 
-fn set_hidden_attribute(path: &Path) -> io::Result<()> {
-    let status = Command::new("attrib")
-        .args(["+H", &path.to_string_lossy()])
-        .status()?;
-    if !status.success() {
-        return Err(io::Error::new(
-            io::ErrorKind::Other,
-            "attrib +H a echoue",
-        ));
-    }
-    Ok(())
-}

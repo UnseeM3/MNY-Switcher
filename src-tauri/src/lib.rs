@@ -7,6 +7,7 @@ mod junction;
 mod native;
 mod pack;
 mod rename;
+mod winattr;
 
 use commands::{
     active_pack, check_setup, clean_gta_mods, cleanup_junctions, clear_fivem_cache, create_pack,
