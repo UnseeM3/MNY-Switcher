@@ -27,7 +27,12 @@
       "csp": null,
       "assetProtocol": {
         "enable": true,
-        "scope": ["**"]
+        "scope": [
+          "**/.cover.png",
+          "**/.cover.jpg",
+          "**/.cover.jpeg",
+          "**/.cover.webp"
+        ]
       }
     }
   },
