@@ -1,6 +1,7 @@
 mod cache;
 mod cleanup_gta;
 mod commands;
+mod cover;
 mod enb;
 mod fivem;
 mod junction;
