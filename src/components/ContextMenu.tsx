@@ -4,6 +4,8 @@ export type ContextMenuItem = {
   label: string;
   onClick: () => void | Promise<void>;
   danger?: boolean;
+  keepOpen?: boolean;
+  armed?: boolean;
 };
 
 type ContextMenuProps = {
@@ -34,7 +36,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
   }, [onClose]);
 
   async function handleClick(item: ContextMenuItem) {
-    onClose();
+    if (!item.keepOpen) onClose();
     await item.onClick();
   }
 
@@ -50,11 +52,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
             <button
               type="button"
               onClick={() => handleClick(item)}
-              className={`flex w-full items-center px-3 py-1.5 text-left text-sm transition-colors ${
-                item.danger
-                  ? "text-danger hover:bg-danger/10"
-                  : "text-fg hover:bg-surface-elevated"
-              }`}
+              className={buildItemClasses(item)}
             >
               {item.label}
             </button>
@@ -63,4 +61,11 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
       </ul>
     </div>
   );
+}
+
+function buildItemClasses(item: ContextMenuItem): string {
+  const base = "flex w-full items-center px-3 py-1.5 text-left text-sm transition-colors";
+  if (item.armed) return `${base} bg-danger/15 font-medium text-danger`;
+  if (item.danger) return `${base} text-danger hover:bg-danger/10`;
+  return `${base} text-fg hover:bg-surface-elevated`;
 }
