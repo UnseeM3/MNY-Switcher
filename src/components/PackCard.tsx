@@ -41,10 +41,12 @@ export function PackCard({ pack }: { pack: Pack }) {
 
 function buildCardClasses(isActive: boolean, busy: boolean): string {
   const base =
-    "group relative flex flex-col overflow-hidden bg-surface text-left transition-colors hover:bg-surface-elevated focus:outline-none";
-  const border = isActive ? "ring-2 ring-accent ring-inset" : "";
+    "group relative flex flex-col overflow-hidden text-left transition-colors focus:outline-none border-t-2";
+  const state = isActive
+    ? "border-accent bg-accent/[0.08]"
+    : "border-transparent bg-surface hover:bg-surface-elevated";
   const disabled = busy ? "pointer-events-none opacity-60" : "";
-  return `${base} ${border} ${disabled}`;
+  return `${base} ${state} ${disabled}`;
 }
 
 type CoverProps = { coverSrc: string | null; packName: string; busy: boolean };
