@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { useConfigStore } from "../stores/config";
 import { usePacksStore } from "../stores/packs";
+import { useViewStore } from "../stores/view";
 import { api } from "../api/tauri";
 import { PackItem } from "./PackItem";
+import { PackGrid } from "./PackGrid";
 import { NewPackDialog } from "./NewPackDialog";
 import { LaunchButton } from "./LaunchButton";
 import { ClearCacheButton } from "./ClearCacheButton";
@@ -14,6 +16,7 @@ import { Tooltip } from "./Tooltip";
 export function PackList() {
   const { gameDir, packsDir } = useConfigStore();
   const { packs, loading, error, refresh } = usePacksStore();
+  const viewMode = useViewStore((state) => state.viewMode);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -33,6 +36,8 @@ export function PackList() {
           <EmptyState message="Chargement..." />
         ) : packs.length === 0 ? (
           <EmptyState message="Aucun pack. Cree-en un avec le bouton +." />
+        ) : viewMode === "grid" ? (
+          <PackGrid packs={packs} />
         ) : (
           <ul className="flex flex-col">
             {packs.map((pack) => (
