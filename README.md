@@ -2,12 +2,16 @@
 
 > Outil desktop Windows pour switcher entre plusieurs packs graphiques FiveM en un double-clic.
 
-<img src="docs/screenshots/app-main.png" alt="Vue principale - liste des packs en theme dark" />
+<p align="center">
+  <img src="docs/screenshots/app-main.png" alt="Vue principale - mode liste" width="45%" />
+  <img src="docs/screenshots/pack-grid.png" alt="Vue grille avec covers de packs" width="45%" />
+</p>
 
 ## Sommaire
 
 - [Pourquoi](#pourquoi)
 - [Fonctionnalites](#fonctionnalites)
+- [Modes d'affichage](#modes-daffichage)
 - [Stack technique](#stack-technique)
 - [Installation](#installation)
 - [Premier lancement](#premier-lancement)
@@ -26,16 +30,26 @@ MNY Switcher utilise les **junctions NTFS** de Windows : un swap de pack prend m
 ## Fonctionnalites
 
 - Switch instantane entre packs (< 100 ms)
+- Deux modes d'affichage : liste compacte ou grille avec covers personnalisables
+- Cover par pack (image d'illustration) avec actions definir / changer / retirer
 - Support ENB integre
 - Pack natif (sans modification) sauvegarde et restaurable
 - Detection automatique du dossier FiveM
 - Import du setup actuel comme premier pack
+- Double confirmation pour supprimer un pack (anti-erreur)
 - Nettoyage du cache FiveM en un clic
 - Nettoyage des fichiers de mods orphelins de GTA V
 - Theme dark / light, fenetre frameless
 - Aucun acces administrateur requis
 
-<img src="docs/screenshots/packs-list.png" alt="Liste des packs avec Natif et packs custom" />
+## Modes d'affichage
+
+Bascule entre vue liste et vue grille via le bouton dans la titlebar. La vue grille met en avant les covers et le pack actif (barre laterale + fond accent).
+
+<p align="center">
+  <img src="docs/screenshots/packs-list.png" alt="Vue liste - pack actif avec barre accent" width="45%" />
+  <img src="docs/screenshots/pack-grid.png" alt="Vue grille - covers personnalisables" width="45%" />
+</p>
 
 ## Stack technique
 
@@ -64,20 +78,25 @@ Au premier demarrage, un wizard te guide en 2 etapes :
 2. **Choisir le dossier de stockage** des packs (dossier central qui contiendra tous tes packs).
 
 <p align="center">
-  <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="48%" />
-  <img src="docs/screenshots/wizard-step-2.png" alt="Wizard etape 2 - dossier des packs" width="48%" />
+  <img src="docs/screenshots/wizard-step-1.png" alt="Wizard etape 1 - selection FiveM.exe et GTA5.exe" width="45%" />
+  <img src="docs/screenshots/wizard-step-2.png" alt="Wizard etape 2 - dossier des packs" width="45%" />
 </p>
 
 ## Utilisation
 
 - **Switcher de pack** : double-clic sur un pack — switch + lancement de FiveM dans la foulee.
 - **Creer un pack** : bouton `+` ; le dialog te guide en 4 etapes (nom, ENB ou non, contenu de depart, source).
-- **Renommer / supprimer** : clic droit sur un pack pour ouvrir le menu contextuel.
+- **Personnaliser avec une cover** : clic droit sur un pack → `Definir l'image` / `Changer l'image` / `Retirer l'image`. La cover s'affiche en vue grille.
+- **Renommer / supprimer** : clic droit sur un pack pour ouvrir le menu contextuel. La suppression demande une double confirmation.
 - **Reglages** : icone engrenage en haut a droite (changer `FiveM.exe`, `GTA5.exe`, dossier des packs, nettoyer cache, nettoyer GTA V, etc.).
 
 <p align="center">
-  <img src="docs/screenshots/context-menu.png" alt="Menu contextuel sur un pack" width="48%" />
-  <img src="docs/screenshots/settings-panel.png" alt="Panneau de reglages" width="48%" />
+  <img src="docs/screenshots/context-menu.png" alt="Menu contextuel sur un pack en mode liste" width="45%" />
+  <img src="docs/screenshots/cover-action.png" alt="Menu contextuel sur un pack en mode grille" width="45%" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/settings-panel.png" alt="Panneau de reglages" width="60%" />
 </p>
 
 ## Build depuis les sources
