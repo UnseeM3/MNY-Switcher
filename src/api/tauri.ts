@@ -56,6 +56,12 @@ export const api = {
     invoke<GtaModEntry[]>("scan_gta_mods", { gta5Dir }),
   cleanGtaMods: (gta5Dir: string) =>
     invoke<number>("clean_gta_mods", { gta5Dir }),
+  setPackCover: (packsDir: string, packName: string, source: string) =>
+    invoke<string>("set_pack_cover", { packsDir, packName, source }),
+  getPackCover: (packsDir: string, packName: string) =>
+    invoke<string | null>("get_pack_cover", { packsDir, packName }),
+  removePackCover: (packsDir: string, packName: string) =>
+    invoke<void>("remove_pack_cover", { packsDir, packName }),
 };
 
 export type GtaModEntry = {
